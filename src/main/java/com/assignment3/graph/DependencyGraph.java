@@ -180,6 +180,7 @@ public class DependencyGraph {
   // Utility function that finds out whether the parentID node and childID node will
   // form cycle in the graph or not. (Using DFS approach)
 
+  /**
   private boolean isCyclic(final Integer parentID, final Integer childID) {
     boolean isCurrentNodeParent = false;
     boolean isNextNodeParent = false;
@@ -192,6 +193,21 @@ public class DependencyGraph {
       }
     }
     return isCurrentNodeParent || isNextNodeParent;
+  }
+  */
+
+
+  private boolean isCyclic(final Integer parentID, final Integer childID) {
+    boolean isCyclePresent = false;
+    for (final Integer node : graph.get(childID)) {
+      if (node.equals(parentID)) {
+        isCyclePresent = true;
+      } else if (visited.get(node) == null) {
+        visited.put(node, true);
+        isCyclePresent = isCyclic(parentID, node);
+      }
+    }
+    return isCyclePresent;
   }
 
   // ----------------------------------------------------------------------------------
